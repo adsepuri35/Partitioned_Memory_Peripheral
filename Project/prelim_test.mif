@@ -1,0 +1,28 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 080E; -- 	LOAD Test_Address
+0001: 9870; --     OUT P_Address
+0002: 080F; --     LOAD Test_Val
+0003: 9872; --     OUT P_Write
+0004: B800; --     LOADI 0
+0005: 9071; --     IN P_Read
+0006: 2010; --     SUB Fake_Val
+0007: 400B; --     JZERO Success
+0008: 0812; --     LOAD Fail_Val
+0009: 9804; --     OUT FourHex
+000A: 280D; -- 	JUMP Endless_loop
+000B: 0811; -- 	LOAD Success_Val
+000C: 9804; --     OUT FourHex
+000D: 280D; -- 	JUMP Endless_loop
+000E: 0009; -- Test_Address: DW 9
+000F: 001F; -- Test_Val: DW 31
+0010: 001E; -- Fake_Val: DW 30
+0011: 8008; -- Success_Val: DW &H8008
+0012: 0880; -- Fail_Val: DW &H0880
+[0013..07FF] : 0000; -- [empty memory]
+END;

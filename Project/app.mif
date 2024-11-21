@@ -1,0 +1,54 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 0828; -- 	LOAD Zero   
+0001: 9872; --     OUT P_PERM   ;sets permission bit to 0
+0002: 9805; --     OUT TwoHex   ;2 digit Hex displays status of permisson bit
+0003: 9804; -- 	OUT FourHex
+0004: 8023; --     CALL Delay
+0005: 082A; --     LOAD LowerHalf
+0006: 8017; --     CALL TEST_WRITE
+0007: 082B; --     LOAD UpperHalf
+0008: 8017; --     CALL TEST_WRITE
+0009: 082A; --     LOAD LowerHalf
+000A: 801D; --     CALL TEST_READ
+000B: 082B; --     LOAD UpperHalf
+000C: 801D; --     CALL TEST_READ
+000D: 0829; --     LOAD High
+000E: 9872; --     OUT P_PERM   ;sets permission bit to 1
+000F: B801; -- 	LOADI 1
+0010: 9805; --     OUT TwoHex   ;2 digit Hex displays status of permisson bit
+0011: 8023; -- 	CALL Delay
+0012: 082B; --     LOAD UpperHalf
+0013: 8017; --     CALL TEST_WRITE
+0014: 082B; -- 	LOAD UpperHalf
+0015: 801D; --     CALL TEST_READ
+0016: 2816; --    	END: JUMP END
+0017: 9870; -- 	OUT P_Address
+0018: 9804; --     OUT FourHex  ;displays adress trying to be accesed
+0019: 8023; --     CALL Delay
+001A: 082C; --     LOAD YOLO
+001B: 9871; --     OUT P_R_W    ;writes &HFFFF to mem location
+001C: 8800; -- 	RETURN
+001D: 9870; -- 	OUT P_Address
+001E: 9804; --     OUT FourHex  ;displays address trying to be accesed
+001F: 9071; --     IN P_R_W	 ;read mem loation
+0020: 9804; --     OUT  FourHex ;displays data accessed from mem phepripheral
+0021: 8023; -- 	CALL Delay
+0022: 8800; --     RETURN
+0023: 9802; -- 	OUT    Timer
+0024: 9002; -- 	IN     Timer
+0025: 6FEC; -- 	ADDI   -20
+0026: 3024; -- 	JNEG   WaitingLoop
+0027: 8800; -- 	RETURN
+0028: 0000; -- Zero: DW 0
+0029: 1120; -- High: DW &H1120
+002A: 1111; -- LowerHalf: DW &H1111
+002B: EEEE; -- UpperHalf: DW  &HEEEE
+002C: ABCD; -- YOLO: DW &HABCD
+[002D..07FF] : 0000; -- [empty memory]
+END;

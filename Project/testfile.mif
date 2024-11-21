@@ -1,0 +1,65 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 8025; -- 	CALL SwitchesDown
+0001: 0836; --     LOAD YOLOAddress
+0002: 9870; --     OUT P_Address
+0003: 0837; --     LOAD YOLO
+0004: 9871; --     OUT P_Write
+0005: 8017; -- 	CALL GenRand
+0006: 082F; --     LOAD RandomNum     ;Generates a random number which we will try to match
+0007: 9804; --     OUT FourHex
+0008: 8028; --     CALL DELAY
+0009: 0834; --     LOAD ZERO       ;Sets address of mem pheripherial to 0x00
+000A: 9870; --     OUT P_Address
+000B: 9871; --     OUT P_Write     ;Sets the value of the address and makes a 
+000C: 9072; --     	IN P_Read
+000D: 9804; --         OUT FourHex   ;Outputs current value of memory/cache entry
+000E: 202F; --           SUB RandomNum  ;Checks if the random num and meomory entry are the same
+000F: 4013; --           JZERO SUCCESS
+0010: 6801; --           ADDI 1
+0011: 9872; --           OUT P_Read
+0012: 8028; --           CALL Delay
+0013: 0836; -- 	LOAD YOLOAddress
+0014: 9072; --     IN P_Read
+0015: 9804; --     OUT FourHex
+0016: 2816; --     ENDLESS_LOOP:  JUMP ENDLESS_LOOP
+0017: 0834; --     LOAD Zero
+0018: 1032; --     STORE Temp
+0019: 0832; --     LOAD Temp
+001A: 6801; --     ADDI 1
+001B: 1032; --     STORE Temp
+001C: 9000; --     IN Switches
+001D: 381F; --     JPOS EndRand
+001E: 2819; --     JUMP RandLoop
+001F: 0800; -- 	LOAD Switches
+0020: 1031; --     STORE PrevSwitches
+0021: 0832; --     LOAD Temp
+0022: 4833; -- 	AND BitMask
+0023: 102F; -- 	STORE RandomNum
+0024: 8800; --     RETURN
+0025: 9000; --     IN Switches
+0026: 3825; --     JPOS SwitchesDown
+0027: 8800; --     RETURN	
+0028: 9802; -- 	OUT    Timer
+0029: 9002; -- 	IN     Timer
+002A: 6FFF; -- 	ADDI   -1
+002B: 3029; -- 	JNEG   WaitingLoop
+002C: 8800; -- 	RETURN
+002D: 0000; -- CurrScore: DW 0
+002E: 0000; -- RoundScore: DW 0
+002F: 0000; -- RandomNum: DW 0
+0030: 0000; -- Guess: DW 0
+0031: 0000; -- PrevSwitches: DW 0
+0032: 0000; -- Temp: DW 0
+0033: 03FF; -- BitMask: DW &H3FF
+0034: 0000; -- Zero: DW 0
+0035: 0001; -- High: DW 1
+0036: 00FF; -- YOLOAddress: DW &HFF 
+0037: 0FFF; -- YOLO: DW &HFFF
+[0038..07FF] : 0000; -- [empty memory]
+END;
